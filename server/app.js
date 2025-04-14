@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path'); // Importing path module
 const { getLocation } = require('./location');
 
 const app = express();
