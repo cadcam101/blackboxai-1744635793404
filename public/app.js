@@ -9,25 +9,28 @@ document.getElementById('trackForm').addEventListener('submit', async (e) => {
         const response = await fetch('/track', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify({ phone })
         });
         
-        if (!response.ok) throw new Error('Network response was not ok');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
         
         const data = await response.json();
         
+        // Display results
         locationInfo.innerHTML = `
-            Phone: ${data.phone}<br>
-            Location: ${data.location}<br>
-            Accuracy: ${data.accuracy} meters<br>
-            Time: ${new Date(data.timestamp).toLocaleString()}
+            <p><strong>Phone:</strong> ${data.phone}</p>
+            <p><strong>Location:</strong> ${data.location}</p>
+            <p><strong>Accuracy:</strong> ${data.accuracy} meters</p>
+            <p><strong>Time:</strong> ${new Date(data.timestamp).toLocaleString()}</p>
         `;
-        
         resultDiv.classList.remove('hidden');
+        
     } catch (error) {
-        alert('Error tracking location: ' + error.message);
-        console.error('Error:', error);
+        locationInfo.textContent = `Error: ${error.message}`;
+        resultDiv.classList.remove('hidden');
     }
 });
